@@ -9,8 +9,9 @@ class Appointment {
   @Column()
   provider: string;
 
-  @Column('timestamp with time zone')
+  @Column('timestamp')
   date: Date;
+  
 
 
 }
