@@ -24,8 +24,17 @@ export default class CreateAppointment1599426249159 implements MigrationInterfac
               name: 'date',
               type: 'timestamp',
               isNullable: false,
-              default: 'now()'
 
+            },
+            {
+              name: 'created_at',
+              type:'timestamp',
+              default: 'now()'
+            },
+            {
+              name: 'updated_at',
+              type:'timestamp',
+              default: 'now()'
             }
           ]
         })
