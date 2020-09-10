@@ -12,7 +12,7 @@ class Appointment {
 
   @ManyToOne(() => User)
   @JoinColumn({name: 'provider_id'})
-  provider: User
+  provider: User;
 
   @Column('timestamp')
   date: Date;

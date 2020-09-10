@@ -1,35 +1,43 @@
-import { Router } from 'express';
-import { parseISO } from 'date-fns';
-import { getCustomRepository } from 'typeorm';
+import { Router } from 'express'
+import { parseISO } from 'date-fns'
+import { getCustomRepository } from 'typeorm'
 
-import AppointmentsRepository from '../repositories/AppointmentsRepository'
 import CreateAppointmentService from '../services/CreateAppointmentService'
+import AppoitmentsRepository from '../repositories/AppointmentsRepository'
+//import ensureAuthenticated from '../middlewares/ensureAthenticated'
 
+const appointmentsRouter = Router()
 
-const appointmentsRouter = Router();
+//appointmentsRouter.use(ensureAuthenticated)
 
 appointmentsRouter.get('/', async (request, response) => {
-  const appointmentsRepository = getCustomRepository(AppointmentsRepository)
-  const appointments = await appointmentsRepository.find();
-
-  return response.json(appointments);
-});
+  try {
+    const appointmentsRepository = getCustomRepository(AppoitmentsRepository)
+    const appointments = await appointmentsRepository.find()
+    return response.json(appointments)
+  } catch (error) {
+    return response.status(400).json({ error: error.message })
+  }
+})
 
 appointmentsRouter.post('/', async (request, response) => {
   try {
-    const { provider, date } = request.body;
+    const { provider_id, date } = request.body
 
-    const parsedDate = parseISO(date);
-    const CreateAppointment = new CreateAppointmentService();
+    const parsedDate = parseISO(date)
 
-    const appointment = await CreateAppointment.execute({ date: parsedDate, provider })
+    const createAppointment = new CreateAppointmentService()
 
-    return response.json(appointment);
+    const appointment = await createAppointment.execute({
+      date: parsedDate,
+      provider_id
+    })
 
+    return response.json(appointment)
+  } catch (error) {
+    return response.status(400).json({ error: error.message })
   }
-  catch (err) {
-    return response.status(400).json({ error: err.message })
-  }
-});
+})
 
-export default appointmentsRouter;
+
+export default appointmentsRouter
