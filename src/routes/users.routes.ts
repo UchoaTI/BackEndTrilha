@@ -1,18 +1,30 @@
-import { Router } from 'express';
+import { Router } from 'express'
+
+import CreateUserService from '../services/CreateUserService'
 
 
-const appointmentsRouter = Router();
+const usersRouter = Router()
 
 
-appointmentsRouter.post('/', async (request, response) => {
+
+usersRouter.post('/', async (request, response) => {
   try {
-    const {name, email, password} = request.body;
+    const { name, email, password } = request.body
 
-    return response.send();
-  }
-  catch (err) {
-    return response.status(400).json({ error: err.message })
-  }
-});
+    const createUser = new CreateUserService()
 
-export default appointmentsRouter;
+    const user = await createUser.execute({
+      name,
+      email,
+      password
+    })
+
+    delete user.password
+
+    return response.json(user)
+  } catch (error) {
+    return response.status(400).json({ error: error.message })
+  }
+})
+
+export default usersRouter
