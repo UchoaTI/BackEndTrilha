@@ -10,7 +10,7 @@ export default class AlterProviderFieldToProviderId1599696172779 implements Migr
        isNullable: true,
       }))
 
-      await queryRunner.createForeignKey('appointments', new TableForeignKey({
+      await queryRunner.createForeignKey('appointments', new TableForeignKey({  
         name: 'AppointmentProvider',
         columnNames: ['provider_id'],
         referencedColumnNames:['id'],

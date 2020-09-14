@@ -8,11 +8,15 @@ class User {
   @Column()
   name: string
 
-  @Column()
+  @Column() //
   email: string
 
   @Column()
   password: string
+
+  @Column()
+  avatar: string
+
 
   @CreateDateColumn()
   created_at: Date
